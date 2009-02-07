@@ -103,6 +103,7 @@ int main(int argc, char **argv) {
     if (ret != 0) printf("claim after set_configuration failed with error %d\n", ret);
     ret = usb_set_altinterface(devh, 0);
 
+    // 9207: open up aperture
     usleep(6*1000);
     memcpy(buf, "\x10\x00\x00\x00\x01\x00\x07\x92\x78\x00\x00\x00\x07\x50\x00\x00", 0x0000010);
     ret = usb_bulk_write(devh, 0x00000001, buf, 0x0000010, 1000);
