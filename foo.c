@@ -146,6 +146,7 @@ ret = usb_claim_interface(devh, 0);
 if (ret != 0) printf("claim after set_configuration failed with error %d\n", ret);
 ret = usb_set_altinterface(devh, 0);
 printf("4 set alternate setting returned %d\n", ret);
+
 memcpy(buf, "\x10\x00\x00\x00\x01\x00\x02\x10\x00\x00\x00\x00\x01\x00\x00\x00", 0x0000010);
 ret = usb_bulk_write(devh, 0x00000001, buf, 0x0000010, 1000);
 printf("5 bulk write returned %d, bytes: ", ret);
@@ -441,6 +442,7 @@ ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
 printf("60 bulk read returned %d, bytes: ", ret);
 print_bytes(buf, ret);
 printf("\n");
+// get info (bulk read 62)
 usleep(6*1000);
 memcpy(buf, "\x0c\x00\x00\x00\x01\x00\x08\x92\x0f\x00\x00\x00", 0x000000c);
 ret = usb_bulk_write(devh, 0x00000001, buf, 0x000000c, 1000);
@@ -474,6 +476,25 @@ usleep(3*1000);
 ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
 printf("1149 bulk read returned %d, bytes: ", ret);
 print_bytes(buf, ret);
+printf("\n");
+
+// get info (bulk read 62)
+usleep(600*1000);
+memcpy(buf, "\x0c\x00\x00\x00\x01\x00\x08\x92\x0f\x00\x00\x00", 0x000000c);
+ret = usb_bulk_write(devh, 0x00000001, buf, 0x000000c, 1000);
+printf("61 bulk write returned %d, bytes: ", ret);
+print_bytes(buf, ret);
+printf("\n");
+usleep(4*1000);
+ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
+printf("62 bulk read returned %d, bytes: ", ret);
+print_bytes(buf, ret);
+printf("\n");
+usleep(4*1000);
+ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
+printf("63 bulk read returned %d, bytes: ", ret);
+print_bytes(buf, ret);
+printf("\n");
 printf("\n");
 	ret = usb_release_interface(devh, 0);
 	assert(ret == 0);
