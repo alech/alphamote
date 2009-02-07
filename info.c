@@ -97,6 +97,80 @@ void print_interpretation(char *buf) {
     else if (buf[41] == 2) {
         printf("AF-S\n");
     }
+
+    // bytes 71/72 identify drive/bracketing type
+    if (buf[71] == 1) {
+        printf("Singleshot\n");
+    }
+    else if (buf[71] == 2) {
+        printf("Continuous drive (high)\n");
+    }
+    else if (buf[71] == 0x12) {
+        printf("Continuous drive (low)\n");
+    }
+    else if (buf[71] == 4) {
+        printf("Timer (10s)\n");
+    }
+    else if (buf[71] == 5) {
+        printf("Timer (2s)\n");
+    }
+    else if (buf[71] == '\x37' && buf[72] == '\x83') {
+        printf("Continuous bracketing (0.3 f-stops, 3 pictures)\n");
+    }
+    else if (buf[71] == '\x37' && buf[72] == '\x85') {
+        printf("Continuous bracketing (0.3 f-stops, 5 pictures)\n");
+    }
+    else if (buf[71] == '\x57' && buf[72] == '\x83') {
+        printf("Continuous bracketing (0.5 f-stops, 3 pictures)\n");
+    }
+    else if (buf[71] == '\x57' && buf[72] == '\x85') {
+        printf("Continuous bracketing (0.5 f-stops, 5 pictures)\n");
+    }
+    else if (buf[71] == '\x77' && buf[72] == '\x83') {
+        printf("Continuous bracketing (0.7 f-stops, 3 pictures)\n");
+    }
+    else if (buf[71] == '\x77' && buf[72] == '\x85') {
+        printf("Continuous bracketing (0.7 f-stops, 5 pictures)\n");
+    }
+    else if (buf[71] == '\x47') {
+        printf("Continuous bracketing (2 f-stops, 3 pictures)\n");
+    }
+    else if (buf[71] == '\x29') {
+        printf("DR-+ bracketing (high)\n");
+    }
+    else if (buf[71] == '\x19') {
+        printf("DR-+ bracketing (low)\n");
+    }
+    else if (buf[71] == '\x36' && buf[72] == '\x83') {
+        printf("Single bracketing (0.3 f-stops, 3 pictures)\n");
+    }
+    else if (buf[71] == '\x36' && buf[72] == '\x85') {
+        printf("Single bracketing (0.3 f-stops, 5 pictures)\n");
+    }
+    else if (buf[71] == '\x56' && buf[72] == '\x83') {
+        printf("Single bracketing (0.5 f-stops, 3 pictures)\n");
+    }
+    else if (buf[71] == '\x56' && buf[72] == '\x85') {
+        printf("Single bracketing (0.5 f-stops, 5 pictures)\n");
+    }
+    else if (buf[71] == '\x76' && buf[72] == '\x83') {
+        printf("Single bracketing (0.7 f-stops, 3 pictures)\n");
+    }
+    else if (buf[71] == '\x76' && buf[72] == '\x85') {
+        printf("Single bracketing (0.7 f-stops, 5 pictures)\n");
+    }
+    else if (buf[71] == '\x46') {
+        printf("Single bracketing (2 f-stops, 3 pictures)\n");
+    }
+    else if (buf[71] == '\x28') {
+        printf("WB bracketing (high)\n");
+    }
+    else if (buf[71] == '\x18') {
+        printf("WB bracketing (low)\n");
+    }
+    else if (buf[71] == '\x0a') {
+        printf("Remote control\n");
+    }
 }
 
 int main(int argc, char **argv) {
