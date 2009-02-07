@@ -84,6 +84,19 @@ void print_interpretation(char *buf) {
             printf("bulb\n");
         }
     }
+    // byte 41 identifies the focusing type
+    if (buf[41] == 1) {
+        printf("M\n");
+    }
+    else if (buf[41] == 4) {
+        printf("AF-C\n");
+    }
+    else if (buf[41] == 5) {
+        printf("AF-A\n");
+    }
+    else if (buf[41] == 2) {
+        printf("AF-S\n");
+    }
 }
 
 int main(int argc, char **argv) {
