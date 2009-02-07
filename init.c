@@ -41,21 +41,6 @@ struct usb_device *find_device(int vendor, int product) {
     return NULL;
 }
 
-void print_bytes(char *bytes, int len) {
-    int i;
-    if (len > 0) {
-	for (i=0; i<len; i++) {
-	    printf("%02x ", (int)((unsigned char)bytes[i]));
-	}
-	printf("\"");
-        for (i=0; i<len; i++) {
-	    printf("%c", isprint(bytes[i]) ? bytes[i] : '.');
-        }
-        printf("\"");
-    }
-}
-
-
 int main(int argc, char **argv) {
     int ret, vendor, product;
     struct usb_device *dev;
@@ -233,17 +218,6 @@ int main(int argc, char **argv) {
     ret = usb_bulk_write(devh, 0x00000001, buf, 0x0000018, 1000);
     usleep(4*1000);
     ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
-    ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
-    // get info (bulk read 62)
-    usleep(6*1000);
-    memcpy(buf, "\x0c\x00\x00\x00\x01\x00\x08\x92\x0f\x00\x00\x00", 0x000000c);
-    ret = usb_bulk_write(devh, 0x00000001, buf, 0x000000c, 1000);
-    usleep(4*1000);
-    ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
-    printf("62 bulk read returned %d, bytes: ", ret);
-    print_bytes(buf, ret);
-    printf("\n");
-    usleep(4*1000);
     ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
     ret = usb_release_interface(devh, 0);
     assert(ret == 0);
