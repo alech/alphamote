@@ -57,6 +57,34 @@ void print_bytes(char *bytes, int len) {
     }
 }
 
+void print_interpretation(char *buf) {
+    // byte 35 and 36 are 100 * fstop
+    long fstop_scaled = buf[35] & 255;
+    fstop_scaled |= (buf[36] << 8);
+    double fstop;
+    fstop = (fstop_scaled / 100.0); 
+    printf("f%2.1f\n", fstop);
+
+    if (buf[95] == 1) {
+        // if byte 95 is 1
+        // byte 93 and 94 are 1/time
+        printf("using 1/s\n");
+        long time = (buf[93] & 255) | (buf[94] << 8);
+        printf("1/%ds\n", time);
+    }
+    else {
+        // byte 95 and 96 are 10*s (or bulb if 0)
+        long time = (buf[95] & 255) | (buf[96] << 8);
+        if (time != 0) {
+            double time_s;
+            time_s = (time / 10.0);
+            printf("%2.1fs\n", time_s);
+        }
+        else {
+            printf("bulb\n");
+        }
+    }
+}
 
 int main(int argc, char **argv) {
     int ret, vendor, product;
@@ -112,6 +140,8 @@ int main(int argc, char **argv) {
     usleep(4*1000);
     ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
     int i;
+    print_interpretation(buf);
+    printf("\n");
     print_bytes(buf, ret);
     usleep(4*1000);
     ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
