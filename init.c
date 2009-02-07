@@ -62,7 +62,6 @@ int main(int argc, char **argv) {
     char buf[65535], *endptr;
 
     usb_init();
-    usb_set_debug(255);
     usb_find_busses();
     usb_find_devices();
 
