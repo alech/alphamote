@@ -1,0 +1,8 @@
+TODOs:
+
+- if possible, split shutter and image downloading in trigger.c
+  (this probably means being able to downloading images created by
+  pressing the shutter physically)
+- record USB traffic for changing settings other than aperture
+- figure out when file from camera is available for download
+- figure out how the camera reports if a photo could not be taken
