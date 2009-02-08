@@ -7,12 +7,13 @@ replacement for Sony's Remote Camera Control software.
 Why? Sony's software does not run on free Unix systems
 and can not be scripted ...
 
-For now, there is no Makefile, so run
-
-gcc -o alphamote-init init.c -lusb
-gcc -o alphamote-trigger trigger.c -lusb
+To compile, run make
 
 ./alphamote-init
 ./alphamote-trigger
 
 should then create a /tmp/foo.jpg file.
+
+./alphamote-info will show you the settings and a dump of
+the corresponding message block. Play with the camera settings
+to figure out which blocks correspond to what ...

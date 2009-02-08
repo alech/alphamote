@@ -1,4 +1,3 @@
-
 /* This file is generated with usbsnoop2libusb.pl from a usbsnoop log file. */
 /* Latest version of the script should be in http://iki.fi/lindi/usb/usbsnoop2libusb.pl */
 #include <stdio.h>
@@ -8,39 +7,7 @@
 #include <signal.h>
 #include <ctype.h>
 #include <usb.h>
-#if 0
- #include <linux/usbdevice_fs.h>
- #define LIBUSB_AUGMENT
- #include "libusb_augment.h"
-#endif
-
-struct usb_dev_handle *devh;
-
-void release_usb_device(int dummy) {
-    int ret;
-    ret = usb_release_interface(devh, 0);
-    if (!ret)
-	printf("failed to release interface: %d\n", ret);
-    usb_close(devh);
-    if (!ret)
-	printf("failed to close interface: %d\n", ret);
-    exit(1);
-}
-
-struct usb_device *find_device(int vendor, int product) {
-    struct usb_bus *bus;
-    
-    for (bus = usb_get_busses(); bus; bus = bus->next) {
-	struct usb_device *dev;
-	
-	for (dev = bus->devices; dev; dev = dev->next) {
-	    if (dev->descriptor.idVendor == vendor
-		&& dev->descriptor.idProduct == product)
-		return dev;
-	}
-    }
-    return NULL;
-}
+#include "alphamote.h"
 
 void print_bytes(char *bytes, int len) {
     int i;
@@ -174,38 +141,10 @@ void print_interpretation(char *buf) {
 }
 
 int main(int argc, char **argv) {
-    int ret, vendor, product;
-    struct usb_device *dev;
-    char buf[65535], *endptr;
+    int ret;
+    char buf[65535];
 
-    usb_init();
-    usb_find_busses();
-    usb_find_devices();
-
-    vendor  = 0x054c;
-    product = 0x02e7;
-    dev = find_device(vendor, product);
-    assert(dev);
-
-    devh = usb_open(dev);
-    assert(devh);
-    
-    signal(SIGTERM, release_usb_device);
-
-    ret = usb_get_driver_np(devh, 0, buf, sizeof(buf));
-    if (ret == 0) {
-	printf("interface 0 already claimed by driver \"%s\", attempting to detach it\n", buf);
-	ret = usb_detach_kernel_driver_np(devh, 0);
-	printf("usb_detach_kernel_driver_np returned %d\n", ret);
-    }
-    ret = usb_claim_interface(devh, 0);
-    if (ret != 0) {
-	printf("claim failed with error %d\n", ret);
-	exit(1);
-    }
-    
-    ret = usb_set_altinterface(devh, 0);
-    assert(ret >= 0);
+    init_usb();
 
     ret = usb_get_descriptor(devh, 0x0000001, 0x0000000, buf, 0x0000012);
     usleep(4*1000);
