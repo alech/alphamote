@@ -221,7 +221,6 @@ while (ret > 0) {
     for (i = 0; i < ret; i++) {
         fputc(buf[i], out);
     }
-    usleep(10*1000);
 }
 fclose(out);
     ret = usb_release_interface(devh, 0);
