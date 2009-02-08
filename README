@@ -1,0 +1,18 @@
+alphamote - Free Sony alpha camera remote tools
+===============================================
+
+alphamote is a work in progress to build a libusb-based
+replacement for Sony's Remote Camera Control software.
+
+Why? Sony's software does not run on free Unix systems
+and can not be scripted ...
+
+For now, there is no Makefile, so run
+
+gcc -o alphamote-init init.c -lusb
+gcc -o alphamote-trigger trigger.c -lusb
+
+./alphamote-init
+./alphamote-trigger
+
+should then create a /tmp/foo.jpg file.
