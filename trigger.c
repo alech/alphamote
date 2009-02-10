@@ -102,36 +102,29 @@ int main(int argc, char **argv) {
     usleep(73*1000);
 
     // retrieving image
-    usleep(250*1000);
+    usleep(2500*1000);
     memcpy(buf, "\x10\x00\x00\x00\x01\x00\x08\x10\xfa\x06\x00\x00\x01\xc0\xff\xff", 0x0000010);
     ret = usb_bulk_write(devh, 0x00000001, buf, 0x0000010, 1000);
     printf("5469 bulk write returned %d, bytes: ", ret);
     print_bytes(buf, ret);
     printf("\n");
     usleep(6*1000);
-    int i;
-    for (i = 0; i < 10; i++) {
-        // 5470 contains the filename
-        ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
-        printf("5470 bulk read returned %d, bytes: ", ret);
-        if (ret > 0) {
-            // there is a filename, so there must be data to read
-            break;
-        }
-        print_bytes(buf, ret);
-        printf("\n");
-        usleep(2*1000);
-        ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
-        printf("5471 bulk read returned %d, bytes: ", ret);
-        print_bytes(buf, ret);
-        printf("\n");
-        usleep(4*1000);
-        ret = usb_interrupt_read(devh, 0x00000083, buf, 0x0000008, 1000);
-        printf("5472 interrupt read returned %d, bytes: ", ret);
-        print_bytes(buf, ret);
-        printf("\n");
-        usleep(16*1000);
-    }
+    // 5470 contains the filename
+    ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
+    printf("5470 bulk read returned %d, bytes: ", ret);
+    print_bytes(buf, ret);
+    printf("\n");
+    usleep(2*1000);
+    ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
+    printf("5471 bulk read returned %d, bytes: ", ret);
+    print_bytes(buf, ret);
+    printf("\n");
+    usleep(4*1000);
+    ret = usb_interrupt_read(devh, 0x00000083, buf, 0x0000008, 1000);
+    printf("5472 interrupt read returned %d, bytes: ", ret);
+    print_bytes(buf, ret);
+    printf("\n");
+    usleep(16*1000);
     memcpy(buf, "\x10\x00\x00\x00\x01\x00\x09\x10\xfb\x06\x00\x00\x01\xc0\xff\xff", 0x0000010);
     ret = usb_bulk_write(devh, 0x00000001, buf, 0x0000010, 1000);
     printf("5473 bulk write returned %d, bytes: ", ret);
