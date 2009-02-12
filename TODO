@@ -6,3 +6,4 @@ TODOs:
 - record USB traffic for changing settings other than aperture
 - figure out when file from camera is available for download
 - figure out how the camera reports if a photo could not be taken
+- In trigger.c, read filename from the camera and use it as a default
