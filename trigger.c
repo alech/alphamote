@@ -7,6 +7,7 @@
 #include <signal.h>
 #include <ctype.h>
 #include <usb.h>
+#include <getopt.h>
 #include "alphamote.h"
 
 void print_bytes(char *bytes, int len) {
@@ -25,8 +26,23 @@ void print_bytes(char *bytes, int len) {
 
 
 int main(int argc, char **argv) {
-    int ret;
+    int ret,  c;
     char buf[65535];
+    char *filename = "/tmp/foo.jpg";
+
+    // command line options
+    opterr = 0;
+    while ((c = getopt(argc, argv, "o:")) != -1) {
+        switch (c) {
+            case 'o':
+                if (optarg != NULL) {
+                    filename = optarg;
+                }
+                break;
+        }
+    }
+
+    printf("filename: %s", filename);
 
     init_usb();
 
