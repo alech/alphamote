@@ -1,0 +1,5 @@
+#!/bin/sh
+BINARY_PATH=.
+ACTION=$1
+shift
+$BINARY_PATH/alphamote-$ACTION $@
