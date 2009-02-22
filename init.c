@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     usleep(4*1000);
     ret = usb_bulk_read(devh, 0x00000082, buf, 0x0000200, 1030);
     if (buf[6] == 1) {
-        printf("not yet initialized, initializing ...\n");
+        printf("initializing ...\n");
     }
     else {
         printf("already initialized, no need to do it again\n");

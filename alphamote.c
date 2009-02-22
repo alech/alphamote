@@ -47,7 +47,10 @@ void init_usb() {
     vendor  = 0x054c;
     product = 0x02e7;
     dev = find_device(vendor, product);
-    assert(dev);
+    if (! dev) {
+        fprintf(stderr, "No camera found!\n");
+        exit(1);
+    }
 
     devh = usb_open(dev);
     assert(devh);
