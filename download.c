@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     init_usb();
 
     // retrieving image
-    usleep(2500*1000);
+    usleep(50*1000);
     memcpy(buf, "\x10\x00\x00\x00\x01\x00\x08\x10\xfa\x06\x00\x00\x01\xc0\xff\xff", 0x0000010);
     ret = usb_bulk_write(devh, 0x00000001, buf, 0x0000010, 1000);
     printf("5469 bulk write returned %d, bytes: ", ret);

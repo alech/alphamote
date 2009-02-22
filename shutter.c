@@ -28,25 +28,10 @@ void print_bytes(char *bytes, int len) {
 int main(int argc, char **argv) {
     int ret,  c;
     char buf[65535];
-    char *filename = "/tmp/foo.jpg";
-
-    // command line options
-    opterr = 0;
-    while ((c = getopt(argc, argv, "o:")) != -1) {
-        switch (c) {
-            case 'o':
-                if (optarg != NULL) {
-                    filename = optarg;
-                }
-                break;
-        }
-    }
-
-    printf("filename: %s", filename);
 
     init_usb();
 
-    usleep(5000*1000);
+    usleep(50*1000);
     // shutter release
     memcpy(buf, "\x10\x00\x00\x00\x01\x00\x07\x92\x0e\x05\x00\x00\xc7\xd2\x00\x00", 0x0000010);
     ret = usb_bulk_write(devh, 0x00000001, buf, 0x0000010, 1000);
