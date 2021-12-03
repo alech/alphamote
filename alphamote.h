@@ -7,4 +7,4 @@ void release_usb_device(int);
 struct usb_device *find_device(int, int);
 void init_usb();
 #endif
-struct usb_dev_handle *devh;
+// this was so this compiled on raspberry Pi4    struct usb_dev_handle *devh;
